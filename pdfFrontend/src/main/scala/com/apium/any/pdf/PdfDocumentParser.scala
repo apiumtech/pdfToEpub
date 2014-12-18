@@ -17,6 +17,8 @@ class PdfDocumentParser extends DocumentGenerator[PdfGeneratorSource] {
 
   def generate(document: PdfGeneratorSource): Document = {
     val pages = (1 to document.source.getNumberOfPages).par.map(PdfPageGeneratorSource(document.source, _)).map(pageParser.generate).seq
+    document.source.close()
+    
     Document(Seq(Chapter("", pages)))
   }
 }
