@@ -1,7 +1,9 @@
 package com.apium.any.pdf
 
+import java.io.InputStream
+
+import com.apium.any.tree.generator.{DocumentGenerator, GeneratorSource}
 import com.apium.any.tree.{Chapter, Document}
-import com.apium.any.tree.generator.{GeneratorSource, DocumentGenerator}
 import org.apache.pdfbox.pdmodel.PDDocument
 
 /**
@@ -17,5 +19,10 @@ class PdfDocumentParser extends DocumentGenerator[PdfGeneratorSource] {
     val pages = (1 to document.source.getNumberOfPages).par.map(PdfPageGeneratorSource(document.source, _)).map(pageParser.generate).seq
     Document(Seq(Chapter("", pages)))
   }
+}
 
+object PdfDocumentParser {
+  def sourceFromInputStream(source: InputStream): PdfGeneratorSource = {
+    PdfGeneratorSource(PDDocument.load(source))
+  }
 }

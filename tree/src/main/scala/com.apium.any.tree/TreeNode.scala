@@ -14,5 +14,5 @@ trait NoChildren extends TreeNode {
 }
 
 trait EnsuredChildren extends TreeNode {
-  require(children.nonEmpty)
+  require(children.nonEmpty, "it must have children")
 }
